@@ -7,12 +7,18 @@ import * as userValidator from "./user.validation";
 const router = Router();
 
 router
-        .get("/", userController.getAllUser)
-        .get("/:id", userController.getUserById)
-        .delete("/:id", userController.deleteUser)
-        .post("/", userValidator.createUser, catchError, userController.createUser)
-        .put("/:id", userValidator.updateUser, catchError, userController.updateUser)
-        .patch("/:id", userValidator.editUser, catchError, userController.editUser)
+  .get("/", userController.getAllUser)
+  .get("/:id", userController.getUserById)
+  .delete("/:id", userController.deleteUser)
+  .post("/", userValidator.createUser, catchError, userController.createUser)
+  .put("/:id", userValidator.updateUser, catchError, userController.updateUser)
+  .patch("/:id", userValidator.editUser, catchError, userController.editUser)
+  .post(
+    "/login",
+    userValidator.loginUser,
+    catchError,
+    userController.loginUser
+  );
 
 export default router;
 

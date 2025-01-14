@@ -61,6 +61,7 @@ export const initPassport = (): void => {
             done(createError(401, "Invalid email or password"), false);
             return;
           }
+          console.log(user);
           const { password: _p, ...result } = user;
           done(null, result, { message: "Logged in Successfully" });
         } catch (error: any) {
@@ -73,7 +74,7 @@ export const initPassport = (): void => {
 
 export const createUserTokens = (user: Omit<IUser, "password">) => {
   const jwtSecret = process.env.JWT_SECRET ?? "";
-  const token = jwt.sign(user, jwtSecret);
+  const token = jwt.sign(user, jwtSecret, { expiresIn: "1h" });
   return { accessToken: token, refreshToken: "" };
 };
 

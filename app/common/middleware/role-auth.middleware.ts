@@ -3,7 +3,7 @@ import { type NextFunction, type Request, type Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 import createHttpError from "http-errors";
 import process from "process";
-import { type IUser } from "../../user/user.dto";
+import { type IUser } from "../../../api/user/user.dto";
 
 export const roleAuth = (
   roles: IUser['role'],

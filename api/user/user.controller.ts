@@ -1,9 +1,9 @@
 import * as userService from "./user.service";
-import { createResponse } from "../common/helper/response.hepler";
+import { createResponse } from "../../app/common/helper/response.hepler";
 import asyncHandler from "express-async-handler";
 import { type Request, type Response } from "express";
 import passport from "passport";
-import { createUserTokens } from "../common/services/passport-jwt.service";
+import { createUserTokens } from "../../app/common/services/passport-jwt.service";
 
 export const createUser = asyncHandler(async (req: Request, res: Response) => {
   const result = await userService.createUser(req.body);

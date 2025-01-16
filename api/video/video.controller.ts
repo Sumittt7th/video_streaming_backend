@@ -1,8 +1,8 @@
 import * as videoService from "./video.service";
-import { createResponse } from "../common/helper/response.hepler";
+import { createResponse } from "../../app/common/helper/response.hepler";
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { uploadVideo } from '../common/services/file.upload.service';
+import { uploadVideo } from '../../app/common/services/file.upload.service';
 import * as userService from "../user/user.service";
 
 export const uploadVideos = asyncHandler(async (req: Request, res: Response) => {

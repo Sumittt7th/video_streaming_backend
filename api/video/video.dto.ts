@@ -1,5 +1,4 @@
-import { type BaseSchema } from "../common/dto/base.dto";
-
+import { type BaseSchema } from "../../app/common/dto/base.dto";
 export interface IVideo extends BaseSchema {
     title: string;
     description?: string;

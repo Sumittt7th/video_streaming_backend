@@ -2,8 +2,8 @@
 import { Router } from "express";
 import * as analyticsController from "./analytics.controller";
 import * as analyticsValidator from "./analytics.validation";
-import { catchError } from "../common/middleware/cath-error.middleware";
-import { roleAuth } from '../common/middleware/role-auth.middleware';
+import { catchError } from "../../app/common/middleware/cath-error.middleware";
+import { roleAuth } from '../../app/common/middleware/role-auth.middleware';
 
 const router = Router();
 

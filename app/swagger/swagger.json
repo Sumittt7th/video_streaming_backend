@@ -1,0 +1,577 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Video Streaming Backend",
+    "description": "Basic Structure for Video Streaming Backend Project",
+    "contact": {
+      "name": "Sumit Kumar",
+      "email": "sukumar.75way@gmail.com"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/api/",
+  "tags": [
+    {
+      "name": "User",
+      "description": "User-related APIs"
+    },
+    {
+      "name": "Video",
+      "description": "Video-related APIs"
+    },
+    {
+      "name": "Analytics",
+      "description": "Analytics-related APIs"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter your Bearer Token in the format: Bearer <token>"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "John Doe" },
+          "email": { "type": "string", "example": "john.doe@example.com" },
+          "active": { "type": "boolean", "example": true },
+          "role": { "type": "string", "enum": ["USER", "ADMIN"], "example": "USER" },
+          "password": { "type": "string", "example": "password123" },
+          "refToken": { "type": "string", "example": "refTokenValue" },
+          "subscription": { "type": "boolean", "example": true }
+        },
+        "required": ["name", "email", "role", "password", "subscription"]
+      },
+      "Video": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "example": "Sample Video" },
+          "description": { "type": "string", "example": "This is a sample description" },
+          "url": { "type": "string", "example": "http://example.com/video" },
+          "public_id": { "type": "string", "example": "12345678" },
+          "duration": { "type": "integer", "example": 300 },
+          "access": { "type": "string", "enum": ["free", "paid"], "example": "free" },
+          "viewCount": { "type": "integer", "example": 500 }
+        },
+        "required": ["title", "url", "public_id", "access"]
+      },
+      "Analytics": {
+        "type": "object",
+        "properties": {
+          "videoId": { "type": "string", "example": "12345678" },
+          "userId": { "type": "string", "example": "userId123" },
+          "views": { "type": "integer", "example": 100 }
+        },
+        "required": ["videoId", "userId", "views"]
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all users",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user by ID",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["User"],
+        "summary": "Partial update of user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "400": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/users/status/{id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user subscription status",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription status found"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/videos": {
+      "get": {
+        "tags": ["Video"],
+        "summary": "Get all videos",
+        "responses": {
+          "200": {
+            "description": "A list of videos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Video"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Video"],
+        "summary": "Create a new video",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Video"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Video created successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/videos/{id}": {
+      "get": {
+        "tags": ["Video"],
+        "summary": "Get video by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Video found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Video"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Video not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Video"],
+        "summary": "Delete video by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Video deleted successfully"
+          },
+          "404": {
+            "description": "Video not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Video"],
+        "summary": "Update video by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Video"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Video updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Video not found"
+          }
+        }
+      }
+    },
+    "/videos/{id}/view": {
+      "post": {
+        "tags": ["Video"],
+        "summary": "Increment view count for video",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "View count incremented"
+          },
+          "404": {
+            "description": "Video not found"
+          }
+        }
+      }
+    },
+    "/analytics/{videoId}": {
+      "get": {
+        "tags": ["Analytics"],
+        "summary": "Get analytics for a specific video",
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytics for the video"
+          },
+          "404": {
+            "description": "Video not found"
+          }
+        }
+      }
+    },
+    "/analytics/{videoId}/view": {
+      "post": {
+        "tags": ["Analytics"],
+        "summary": "Increment view count for video analytics",
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "View count incremented"
+          },
+          "404": {
+            "description": "Video not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["USER", "ADMIN"]
+        },
+        "password": {
+          "type": "string"
+        },
+        "refToken": {
+          "type": "string"
+        },
+        "subscription": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Video": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "public_id": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "access": {
+          "type": "string",
+          "enum": ["free", "paid"]
+        },
+        "viewCount": {
+          "type": "number"
+        }
+      }
+    },
+    "Analytics": {
+      "type": "object",
+      "properties": {
+        "videoId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "views": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

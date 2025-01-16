@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { catchError } from "../common/middleware/cath-error.middleware";
+import { catchError } from "../../app/common/middleware/cath-error.middleware";
 import * as videoController from "./video.controller";
 import * as videoValidator from "./video.validation";
-import { uploadVideo } from '../common/services/file.upload.service';
-import { roleAuth } from '../common/middleware/role-auth.middleware';
+import { uploadVideo } from '../../app/common/services/file.upload.service';
+import { roleAuth } from '../../app/common/middleware/role-auth.middleware';
 
 const router = Router();
 

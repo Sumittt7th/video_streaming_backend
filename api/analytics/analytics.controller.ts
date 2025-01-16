@@ -1,6 +1,6 @@
 
 import * as analyticsService from "./analytics.service";
-import { createResponse } from "../common/helper/response.hepler";
+import { createResponse } from "../../app/common/helper/response.hepler";
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 

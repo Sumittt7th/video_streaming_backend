@@ -46,6 +46,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
       }
 
       const { accessToken, refreshToken } = createUserTokens(user);
+      await userService.editUser(user._id, { refToken: refreshToken });
 
       res.send(
         createResponse({ accessToken, refreshToken, user }, "Login successful")
@@ -53,3 +54,11 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     }
   )(req, res);
 });
+export const getUserSubscriptionStatus = asyncHandler(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const result = await userService.getUserSubscription(id);
+  res.send(createResponse(result));
+});
+
+
+

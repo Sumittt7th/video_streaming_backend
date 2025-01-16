@@ -3,7 +3,7 @@ import { type IUser } from "./user.dto";
 import UserSchema from "./user.schema";
 
 export const createUser = async (data: IUser) => {
-    const result = await UserSchema.create({ ...data, active: true });
+    const result = await UserSchema.create({ ...data, active: true,subscription:false,refToken:"" });
     return result;
 };
 
@@ -35,6 +35,10 @@ export const getAllUser = async () => {
 };
 export const getUserByEmail = async (email: string) => {
     const result = await UserSchema.findOne({ email }).lean();
+    return result;
+}
+export const getUserSubscription = async (id: string) => {
+    const result = await UserSchema.findById({id}).lean();
     return result;
 }
 

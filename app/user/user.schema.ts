@@ -16,6 +16,8 @@ const UserSchema = new Schema<IUser>({
         active: { type: Boolean, required: false, default: true },
         role: { type: String, required: true, enum: ["USER", "ADMIN"], default: "USER" },
         password: { type: String, required: true },
+        refToken: {type:String},
+        subscription : {type:Boolean,required:true},
 }, { timestamps: true });
 
 UserSchema.pre("save", async function (next) {

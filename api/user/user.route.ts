@@ -20,7 +20,7 @@ router
     catchError,
     userController.loginUser
   )
-  .get("/staus/:id",userController.getUserSubscriptionStatus);
+  .get("/subs/:id",userController.getUserSubscriptionStatus);
 
 export default router;
 

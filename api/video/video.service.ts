@@ -6,11 +6,15 @@ export const uploadVideo = async (data: IVideo, file: Express.Multer.File) => {
     const result = await cloudinary.v2.uploader.upload(file.path, {
         resource_type: "video", 
         folder: "videos", 
+        eager: [
+          { streaming_profile: "hd", format: "m3u8" }, // Generate HLS
+      ],
       });
     const videoData = {
         ...data,
         url: result.secure_url,
        public_id: result.public_id,
+       hlsUrl: result.eager[0]?.secure_url,
         viewCount: 0,    
     };
     const results = await VideoSchema.create(videoData);

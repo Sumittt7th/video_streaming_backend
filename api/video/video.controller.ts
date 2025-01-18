@@ -54,5 +54,5 @@ export const getVideoPlayback = asyncHandler(async (req: Request, res: Response)
             return;
         }
     }
-    res.send(createResponse({ videoUrl: video.url }, "Video is ready for playback"));
+    res.send(createResponse({ videoUrl: video.hlsUrl }, "Video is ready for playback"));
 });

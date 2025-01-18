@@ -2,22 +2,18 @@ import * as videoService from "./video.service";
 import { createResponse } from "../../app/common/helper/response.hepler";
 import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
-import { uploadVideo } from '../../app/common/services/file.upload.service';
 import * as userService from "../user/user.service";
 
-export const uploadVideos = asyncHandler(async (req: Request, res: Response) => {
-    uploadVideo(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ message: err.message });
-        }
+export const uploadVideos = asyncHandler(
+    async (req: Request, res: Response, next: Function) => {
         if (!req.file) {
-            return res.status(400).json({ message: "No file uploaded" });
-        }
-        
-        const result = await videoService.uploadVideo(req.body, req.file);
-        res.send(createResponse(result, "Video uploaded successfully"));
-    });
-});
+            res.send(createResponse(null, "No file uploaded" ));
+            return; 
+        } 
+            const result = await videoService.uploadVideo(req.body, req.file);
+            res.send(createResponse(result, "Video uploaded successfully"));
+    }
+);
 
 export const getAllVideos = asyncHandler(async (req: Request, res: Response) => {
     const result = await videoService.getAllVideos();
